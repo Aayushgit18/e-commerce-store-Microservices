@@ -1,2 +1,2 @@
-image: eureka-service:latest
+image: aayush595/eureka-service:latest
 port: 8761
