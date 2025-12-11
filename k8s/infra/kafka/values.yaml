@@ -1,8 +1,0 @@
-zookeeper:
-  image: confluentinc/cp-zookeeper:7.4.0
-  port: 2181
-
-kafka:
-  image: confluentinc/cp-kafka:7.4.0
-  port: 9092
-  zookeeperConnect: zookeeper:2181
