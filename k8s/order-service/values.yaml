@@ -1,2 +1,2 @@
-image: order-service:latest
-port: 8080
+image: aayush595/order-service:latest
+port: 8084
