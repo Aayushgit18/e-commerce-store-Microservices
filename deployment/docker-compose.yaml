@@ -2,6 +2,9 @@ version: '3.8'
 name: e-commerce-store
 
 services:
+  # -----------------------------
+  # PostgreSQL Databases
+  # -----------------------------
   db-users:
     container_name: db-users
     image: postgres:16
@@ -54,15 +57,23 @@ services:
     networks:
       - e-commerce-store
 
+  # -----------------------------
+  # Eureka Service Registry
+  # -----------------------------
   eureka-service:
     container_name: eureka-service
     image: eureka-service:latest
+    ports:
+      - "8761:8761"
     environment:
       SPRING_PROFILES_ACTIVE: docker
     restart: unless-stopped
     networks:
       - e-commerce-store
 
+  # -----------------------------
+  # API Gateway
+  # -----------------------------
   api-gateway:
     container_name: api-gateway
     image: api-gateway:latest
@@ -70,21 +81,24 @@ services:
       - "8080:8080"
     environment:
       SPRING_PROFILES_ACTIVE: docker
-    restart: unless-stopped
     depends_on:
       - eureka-service
+    restart: unless-stopped
     networks:
       - e-commerce-store
 
+  # -----------------------------
+  # Microservices
+  # -----------------------------
   user-service:
     container_name: user-service
     image: user-service:latest
     environment:
       SPRING_PROFILES_ACTIVE: docker
-    restart: unless-stopped
     depends_on:
       - db-users
       - eureka-service
+    restart: unless-stopped
     networks:
       - e-commerce-store
 
@@ -93,10 +107,10 @@ services:
     image: auth-service:latest
     environment:
       SPRING_PROFILES_ACTIVE: docker
-    restart: unless-stopped
     depends_on:
       - user-service
       - eureka-service
+    restart: unless-stopped
     networks:
       - e-commerce-store
 
@@ -105,10 +119,10 @@ services:
     image: inventory-service:latest
     environment:
       SPRING_PROFILES_ACTIVE: docker
-    restart: unless-stopped
     depends_on:
       - db-inventory
       - eureka-service
+    restart: unless-stopped
     networks:
       - e-commerce-store
 
@@ -117,11 +131,11 @@ services:
     image: order-service:latest
     environment:
       SPRING_PROFILES_ACTIVE: docker
-    restart: unless-stopped
     depends_on:
       - db-orders
       - broker
       - eureka-service
+    restart: unless-stopped
     networks:
       - e-commerce-store
 
@@ -130,10 +144,10 @@ services:
     image: reviews-service:latest
     environment:
       SPRING_PROFILES_ACTIVE: docker
-    restart: unless-stopped
     depends_on:
       - db-reviews
       - eureka-service
+    restart: unless-stopped
     networks:
       - e-commerce-store
 
@@ -142,23 +156,28 @@ services:
     image: notification-service:latest
     environment:
       SPRING_PROFILES_ACTIVE: docker
-    restart: unless-stopped
     depends_on:
       - eureka-service
+    restart: unless-stopped
     networks:
       - e-commerce-store
 
-  # Zookeeper (Compatible version)
+  # -----------------------------
+  # Zookeeper (Required for Kafka)
+  # -----------------------------
   zookeeper:
     container_name: zookeeper
     image: confluentinc/cp-zookeeper:7.4.0
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
+    restart: unless-stopped
     networks:
       - e-commerce-store
 
-  # Kafka Broker (Compatible version)
+  # -----------------------------
+  # Kafka Broker
+  # -----------------------------
   broker:
     container_name: broker
     image: confluentinc/cp-kafka:7.4.0
@@ -176,9 +195,13 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+    restart: unless-stopped
     networks:
       - e-commerce-store
 
+  # -----------------------------
+  # Kafka Init (Create Topics)
+  # -----------------------------
   init-broker:
     container_name: init-broker
     image: confluentinc/cp-kafka:7.4.0
@@ -187,15 +210,17 @@ services:
     entrypoint: ['/bin/sh', '-c']
     command: |
       "
-      kafka-topics --bootstrap-server broker:29092 --list
-      echo 'Creating kafka topics'
+      echo 'Waiting for Kafka...'
+      sleep 10
       kafka-topics --bootstrap-server broker:29092 --create --if-not-exists --topic order.created.v1
-      echo 'Topics created:'
       kafka-topics --bootstrap-server broker:29092 --list
       "
     networks:
       - e-commerce-store
 
+  # -----------------------------
+  # Observability Stack
+  # -----------------------------
   otel-collector:
     container_name: otel-collector
     image: otel/opentelemetry-collector-contrib:0.96.0
@@ -215,6 +240,8 @@ services:
       - --config.file=/etc/prometheus/prometheus.yaml
     volumes:
       - ./prometheus/prometheus.yaml:/etc/prometheus/prometheus.yaml
+    ports:
+      - "9090:9090"
     networks:
       - e-commerce-store
 
@@ -225,6 +252,7 @@ services:
       - ./grafana/grafana-datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
     ports:
       - "3000:3000"
+    restart: unless-stopped
     networks:
       - e-commerce-store
 
@@ -257,13 +285,18 @@ services:
     networks:
       - e-commerce-store
 
-
+# -----------------------------
+# Volumes
+# -----------------------------
 volumes:
   db-pgdata-users:
   db-pgdata-inventory:
   db-pgdata-reviews:
   db-pgdata-orders:
 
+# -----------------------------
+# Network
+# -----------------------------
 networks:
   e-commerce-store:
     driver: bridge
