@@ -1,2 +1,6 @@
-image: aayush595/eureka-service:latest
-port: 8761
+image:
+  repository: aayush595/eureka-service
+  tag: latest
+
+service:
+  port: 8761
