@@ -6,7 +6,7 @@ metadata:
 spec:
   type: NodePort
   ports:
-    - port: 8080
+    - port: 8083
       nodePort: 30320
   selector:
     app: inventory-service
