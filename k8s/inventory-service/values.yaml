@@ -1,2 +1,5 @@
-image: aayush595/inventory-service:latest
-port: 8083
+  repository: aayush595/inventory-service
+  tag: latest
+
+service:
+  port: 8083
