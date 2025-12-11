@@ -1,2 +1,6 @@
-image: aayush595/api-gateway:latest
-port: 8080
+image:
+  repository: aayush595/api-gateway
+  tag: latest
+
+service:
+  port: 8080
