@@ -1,0 +1,6 @@
+postgres:
+  image: postgres:16
+  db: ecommerce
+  user: postgres
+  password: postgres
+  port: 5432

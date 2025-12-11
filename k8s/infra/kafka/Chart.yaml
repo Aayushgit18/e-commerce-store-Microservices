@@ -1,0 +1,6 @@
+apiVersion: v2
+name: kafka
+description: Kafka + Zookeeper for ecommerce microservices
+type: application
+version: 1.0.0
+appVersion: "7.4"

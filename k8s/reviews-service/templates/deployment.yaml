@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reviews-service
+  namespace: ecommerce
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reviews-service
+  template:
+    metadata:
+      labels:
+        app: reviews-service
+    spec:
+      containers:
+      - name: reviews-service
+        image: {{ .Values.image }}
+        ports:
+        - containerPort: {{ .Values.port }}

@@ -1,0 +1,2 @@
+image: user-service:latest
+port: 8080
