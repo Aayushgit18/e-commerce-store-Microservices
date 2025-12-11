@@ -1,2 +1,2 @@
-image: inventory-service:latest
-port: 8080
+image: aayush595/inventory-service:latest
+port: 8083
