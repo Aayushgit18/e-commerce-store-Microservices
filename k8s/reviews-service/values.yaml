@@ -1,2 +1,2 @@
 image: aayush595/reviews-service:latest
-port: 80804
+port: 8084
