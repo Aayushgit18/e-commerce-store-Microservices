@@ -9,7 +9,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: users
     volumes:
-      - db-pgdata-users:/var/lib/postgresql/data
+      - db-pgdata-users:/var/lib/postgresql
     restart: unless-stopped
     networks:
       - e-commerce-store
@@ -22,7 +22,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: inventory
     volumes:
-      - db-pgdata-inventory:/var/lib/postgresql/data
+      - db-pgdata-inventory:/var/lib/postgresql
     restart: unless-stopped
     networks:
       - e-commerce-store
@@ -35,7 +35,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: reviews
     volumes:
-      - db-pgdata-reviews:/var/lib/postgresql/data
+      - db-pgdata-reviews:/var/lib/postgresql
     restart: unless-stopped
     networks:
       - e-commerce-store
@@ -48,7 +48,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: orders
     volumes:
-      - db-pgdata-orders:/var/lib/postgresql/data
+      - db-pgdata-orders:/var/lib/postgresql
     restart: unless-stopped
     networks:
       - e-commerce-store
@@ -182,12 +182,9 @@ services:
     entrypoint: ['/bin/sh', '-c']
     command: |
       "
-      # blocks until kafka is reachable
       kafka-topics --bootstrap-server broker:29092 --list
-
       echo -e 'Creating kafka topics'
       kafka-topics --bootstrap-server broker:29092 --create --if-not-exists --topic order.created.v1
-
       echo -e 'Successfully created the following topics:'
       kafka-topics --bootstrap-server broker:29092 --list
       "
@@ -202,14 +199,6 @@ services:
       - --config=/etc/otelcol-contrib/otel-collector.yaml
     volumes:
       - ./otel-collector/otel-collector.yaml:/etc/otelcol-contrib/otel-collector.yaml
-#    ports:
-#      - "1888:1888" # pprof extension
-#      - "8888:8888" # Prometheus metrics exposed by the collector
-#      - "8889:8889" # Prometheus exporter metrics
-#      - "13133:13133" # health_check extension
-#      - "4317:4317" # OTLP gRPC receiver
-#      - "4318:4318" # OTLP http receiver
-#      - "55679:55679" # zpages extension
     networks:
       - e-commerce-store
 
@@ -243,7 +232,6 @@ services:
     networks:
       - e-commerce-store
 
-
   zipkin:
     container_name: zipkin
     image: openzipkin/zipkin
@@ -273,4 +261,3 @@ volumes:
 networks:
   e-commerce-store:
     driver: bridge
-
