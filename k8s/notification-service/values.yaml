@@ -1,2 +1,2 @@
-image: notification-service:latest
-port: 8080
+image: aayush595/notification-service:latest
+port: 8084
