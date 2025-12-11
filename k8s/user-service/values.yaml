@@ -1,2 +1,6 @@
-image: aayush595/user-service:latest
-port: 8081
+image:
+  repository: aayush595/user-service
+  tag: latest
+
+service:
+  port: 8081
