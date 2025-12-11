@@ -1,2 +1,2 @@
-image: api-gateway:latest
+image: aayush595/api-gateway:latest
 port: 8080
