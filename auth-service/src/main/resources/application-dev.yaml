@@ -3,32 +3,38 @@ eureka:
     fetch-registry: true
     register-with-eureka: true
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://eureka:8761/eureka/
+
 server:
   error:
     include-exception: true
+
 spring:
   datasource:
     password: postgres
-    url: jdbc:postgresql://localhost:5432/users
+    url: jdbc:postgresql://postgres:5432/users   # FIXED
     username: postgres
+
   jpa:
     hibernate:
       ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+
   mvc:
     problemdetails:
       enabled: false
+
 management:
   otlp:
     metrics:
       export:
-        url: http://localhost:4318/v1/metrics
-        step: 10s
+        url: ""   # FIX OR REMOVE
     tracing:
-      endpoint: http://localhost:4318/v1/traces
+      endpoint: ""  # FIX OR REMOVE
+
+management:
   tracing:
     sampling:
       probability: 1.0
