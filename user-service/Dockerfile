@@ -4,8 +4,7 @@ WORKDIR /usr/app
 RUN mvn clean package -DskipTests
 
 FROM eclipse-temurin:17-jre
-VOLUME /tmp
+WORKDIR /
 COPY --from=build /usr/app/target/*.jar user-service.jar
-ENTRYPOINT ["java","-jar","/user-service.jar"]
 EXPOSE 8081
-
+ENTRYPOINT ["sh","-c","java $JAVA_OPTS -jar /user-service.jar"]
