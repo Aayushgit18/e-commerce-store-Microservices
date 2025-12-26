@@ -1,6 +1,0 @@
-image:
-  repository: aayush595/reviews-service
-  tag: latest
-
-service:
-  port: 8084

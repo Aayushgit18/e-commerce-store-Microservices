@@ -1,6 +1,0 @@
-image:
-  repository: aayush595/user-service
-  tag: latest
-
-service:
-  port: 8081

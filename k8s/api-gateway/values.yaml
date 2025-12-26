@@ -1,6 +1,0 @@
-image:
-  repository: aayush595/api-gateway
-  tag: latest
-
-service:
-  port: 8080

@@ -1,2 +1,0 @@
-image: postgres:16
-port: 5432

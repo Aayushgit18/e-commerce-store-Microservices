@@ -1,6 +1,0 @@
-image:
-  repository: aayush595/order-service
-  tag: latest
-
-service:
-  port: 8084

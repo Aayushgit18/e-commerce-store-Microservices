@@ -1,6 +1,0 @@
-image:
-  repository: aayush595/inventory-service
-  tag: latest
-
-service:
-  port: 8083
