@@ -1,40 +1,5 @@
-eureka:
-  client:
-    fetch-registry: true
-    register-with-eureka: true
-    service-url:
-      defaultZone: http://eureka:8761/eureka/
-
-server:
-  error:
-    include-exception: true
-
 spring:
   datasource:
-    password: postgres
-    url: jdbc:postgresql://postgres:5432/users   # FIXED
+    url: jdbc:postgresql://localhost:5432/users
     username: postgres
-
-  jpa:
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-
-  mvc:
-    problemdetails:
-      enabled: false
-
-management:
-  otlp:
-    metrics:
-      export:
-        url: ""   # FIX OR REMOVE
-    tracing:
-      endpoint: ""  # FIX OR REMOVE
-
-management:
-  tracing:
-    sampling:
-      probability: 1.0
+    password: postgres
