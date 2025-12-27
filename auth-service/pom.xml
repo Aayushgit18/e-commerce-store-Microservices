@@ -97,7 +97,7 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
-        <!-- Micrometer OTLP -->
+        <!-- Micrometer OTLP Export -->
         <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-registry-otlp</artifactId>
@@ -116,17 +116,17 @@
             <version>1.29.0</version>
         </dependency>
 
-        <!-- OTEL API -->
-        <dependency>
-            <groupId>io.opentelemetry</groupId>
-            <artifactId>opentelemetry-api</artifactId>
-            <version>1.42.1</version>
-        </dependency>
-
         <!-- OTEL SDK -->
         <dependency>
             <groupId>io.opentelemetry</groupId>
             <artifactId>opentelemetry-sdk</artifactId>
+            <version>1.42.1</version>
+        </dependency>
+
+        <!-- OTEL API -->
+        <dependency>
+            <groupId>io.opentelemetry</groupId>
+            <artifactId>opentelemetry-api</artifactId>
             <version>1.42.1</version>
         </dependency>
 
@@ -137,12 +137,7 @@
             <version>1.28.0-alpha</version>
         </dependency>
 
-        <!-- Logback Appender for OTEL ⭐ (Correct one) -->
-        <dependency>
-            <groupId>io.opentelemetry</groupId>
-            <artifactId>opentelemetry-logging-logback</artifactId>
-            <version>1.42.1</version>
-        </dependency>
+        <!-- (No logback OTEL appender needed) -->
 
     </dependencies>
 
