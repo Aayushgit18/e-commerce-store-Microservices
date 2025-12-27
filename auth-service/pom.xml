@@ -3,7 +3,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- ⭐ UPGRADED Spring Boot -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -19,7 +18,6 @@
 
     <properties>
         <java.version>17</java.version>
-        <!-- ⭐ Cloud version compatible with Boot 3.2.x -->
         <spring-cloud.version>2023.0.3</spring-cloud.version>
         <org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
     </properties>
@@ -33,7 +31,7 @@
             <version>2.2.0</version>
         </dependency>
 
-        <!-- Validation (NOW auto version via BOM – removed hard-coded 3.0.0) -->
+        <!-- Validation -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
@@ -45,7 +43,7 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- Eureka Client -->
+        <!-- Eureka -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
@@ -103,22 +101,52 @@
             <artifactId>micrometer-registry-otlp</artifactId>
         </dependency>
 
-        <!-- Tracing -->
+        <!-- Tracing Bridge -->
         <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-tracing-bridge-otel</artifactId>
         </dependency>
 
-        <!-- OTEL -->
+        <!-- OTEL Exporter -->
         <dependency>
             <groupId>io.opentelemetry</groupId>
             <artifactId>opentelemetry-exporter-otlp</artifactId>
             <version>1.29.0</version>
         </dependency>
 
+
+        <!-- ⭐⭐ ADDED BELOW — REQUIRED FOR YOUR CONFIG ⭐⭐ -->
+
+        <!-- OTEL API -->
+        <dependency>
+            <groupId>io.opentelemetry</groupId>
+            <artifactId>opentelemetry-api</artifactId>
+            <version>1.42.1</version>
+        </dependency>
+
+        <!-- OTEL SDK -->
+        <dependency>
+            <groupId>io.opentelemetry</groupId>
+            <artifactId>opentelemetry-sdk</artifactId>
+            <version>1.42.1</version>
+        </dependency>
+
+        <!-- Semantic Conventions (matches your import) -->
+        <dependency>
+            <groupId>io.opentelemetry.semconv</groupId>
+            <artifactId>opentelemetry-semconv</artifactId>
+            <version>1.28.0-alpha</version>
+        </dependency>
+
+        <!-- Logback Appender (required for structured tracing logs) -->
+        <dependency>
+            <groupId>io.opentelemetry.instrumentation</groupId>
+            <artifactId>opentelemetry-logback-appender-1.0</artifactId>
+            <version>2.8.0</version>
+        </dependency>
+
     </dependencies>
 
-    <!-- Spring Cloud BOM (kept the same) -->
     <dependencyManagement>
         <dependencies>
             <dependency>
