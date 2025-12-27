@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: auth-service-config
+  namespace: dev
+data:
+  SPRING_PROFILES_ACTIVE: dev
+
+  # Database
+  SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/ecommerce
+  SPRING_DATASOURCE_USERNAME: ecommerce
+  SPRING_DATASOURCE_PASSWORD: ecommerce
+
+  # Eureka
+  EUREKA_CLIENT_REGISTER_WITH_EUREKA: "true"
+  EUREKA_CLIENT_FETCH_REGISTRY: "true"
+  EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-service:8761/eureka/
+
+  # IMPORTANT — property used in code
+  api.user-service: http://user-service.dev.svc.cluster.local/api/v1/users
+
