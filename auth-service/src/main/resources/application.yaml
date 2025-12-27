@@ -1,18 +1,27 @@
-api:
-  user-service: lb://user-service/api/v1/users
-
 server:
   port: 8082
+  error:
+    include-exception: true
 
 spring:
   application:
     name: auth-service
-  profiles:
-    active: dev
+  mvc:
+    problemdetails:
+      enabled: false
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 
-springdoc:
-  api-docs:
-    path: /api-docs
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://eureka-service:8761/eureka/
 
 management:
   endpoints:
@@ -22,3 +31,6 @@ management:
   endpoint:
     health:
       show-details: always
+  tracing:
+    sampling:
+      probability: 1.0
