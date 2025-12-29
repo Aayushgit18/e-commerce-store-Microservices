@@ -19,12 +19,10 @@ spec:
         ports:
         - containerPort: 8081
 
-        # ========= Environment =========
         env:
         - name: JAVA_OPTS
           value: "-Xms256m -Xmx512m"
 
-        # ---- Eureka Config ----
         - name: EUREKA_CLIENT_REGISTER_WITH_EUREKA
           value: "true"
         - name: EUREKA_CLIENT_FETCH_REGISTRY
@@ -32,14 +30,12 @@ spec:
         - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
           value: "http://eureka-service:8761/eureka"
 
-        # ---- Load Config From K8s ----
         envFrom:
         - configMapRef:
             name: user-service-config
         - secretRef:
             name: user-service-secret
 
-        # ========= Resources =========
         resources:
           requests:
             memory: "512Mi"
@@ -48,7 +44,6 @@ spec:
             memory: "1Gi"
             cpu: "500m"
 
-        # ========= Probes =========
         readinessProbe:
           httpGet:
             path: /actuator/health
