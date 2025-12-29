@@ -6,12 +6,10 @@ metadata:
 data:
   SPRING_PROFILES_ACTIVE: dev
 
-  # === Database config (if already here keep it) ===
   SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/ecommerce
   SPRING_DATASOURCE_USERNAME: ecommerce
   SPRING_DATASOURCE_PASSWORD: ecommerce
 
-  # === Eureka Config ===
   EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-service:8761/eureka
   EUREKA_CLIENT_REGISTER_WITH_EUREKA: "true"
   EUREKA_CLIENT_FETCH_REGISTRY: "true"
