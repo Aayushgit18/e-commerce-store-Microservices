@@ -1,43 +1,42 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: api-gateway
+  name: eureka-service
   namespace: dev
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: api-gateway
+      app: eureka-service
   template:
     metadata:
       labels:
-        app: api-gateway
+        app: eureka-service
     spec:
       containers:
-      - name: api-gateway
-        image: aayush595/api-gateway:latest
+      - name: eureka-service
+        image: aayush595/eureka-service:latest
         ports:
-        - containerPort: 8080
-        
+        - containerPort: 8761
+
         env:
         - name: EUREKA_CLIENT_REGISTER_WITH_EUREKA
-          value: "true"
+          value: "false"
         - name: EUREKA_CLIENT_FETCH_REGISTRY
-          value: "true"
-        - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
-          value: "http://eureka-service:8761/eureka"
+          value: "false"
+        - name: EUREKA_INSTANCE_HOSTNAME
+          value: "eureka-service"
 
         readinessProbe:
           httpGet:
             path: /actuator/health
-            port: 8080
-          initialDelaySeconds: 20
+            port: 8761
+          initialDelaySeconds: 30
           periodSeconds: 10
 
         livenessProbe:
           httpGet:
             path: /actuator/health
-            port: 8080
-          initialDelaySeconds: 30
+            port: 8761
+          initialDelaySeconds: 60
           periodSeconds: 20
-
